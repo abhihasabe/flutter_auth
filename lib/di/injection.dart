@@ -1,8 +1,14 @@
-import 'package:gs_diamond/core/manager/cache_manager.dart';
-import 'package:gs_diamond/core/manager/http_client_manager.dart';
-import 'package:gs_diamond/core/manager/network_info_manager.dart';
-import 'package:gs_diamond/features/authentication/presentation/bloc_cubit/login_cubit.dart';
+import 'package:gs_diamond/features/authentication/data/data_source/authentication_data_source_impl.dart';
+import 'package:gs_diamond/features/authentication/data/repository/authentication_repository_impl.dart';
+import 'package:gs_diamond/features/authentication/domain/usecase/otp_usecase.dart';
+import 'package:gs_diamond/features/authentication/presentation/bloc_cubit/authentication_cubit.dart';
+import 'package:gs_diamond/features/authentication/data/data_source/authentication_data_source.dart';
+import 'package:gs_diamond/features/authentication/domain/repository/authentication_repository.dart';
+import 'package:gs_diamond/features/authentication/domain/usecase/mobile_usecase.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:gs_diamond/core/manager/network_info_manager.dart';
+import 'package:gs_diamond/core/manager/http_client_manager.dart';
+import 'package:gs_diamond/core/manager/cache_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:get_it/get_it.dart';
@@ -20,29 +26,35 @@ Future<void> init() async {
 
 Future<void> initGlobals() async {
   locator.registerLazySingleton<Future<SharedPreferences>>(
-          () => SharedPreferences.getInstance());
+      () => SharedPreferences.getInstance());
   locator.registerLazySingleton<InternetConnectionChecker>(
-          () => InternetConnectionChecker());
+      () => InternetConnectionChecker());
   locator.registerLazySingleton(() => http.Client());
 }
 
 Future<void> initManagers() async {
   var sharedPrefs = await locator.get<Future<SharedPreferences>>();
   locator.registerLazySingleton<HttpClientManager>(
-          () => HttpClientManagerImpl(initClient: locator()));
+      () => HttpClientManagerImpl(initClient: locator()));
   locator.registerLazySingleton<CacheManager>(
-          () => CacheManagerImpl(initSharedPref: sharedPrefs));
+      () => CacheManagerImpl(initSharedPref: sharedPrefs));
   locator.registerLazySingleton<NetworkInfo>(
-          () => NetworkInfoImpl(connectionChecker: locator()));
+      () => NetworkInfoImpl(connectionChecker: locator()));
 }
 
 Future<void> initCubits() async {
-  locator.registerFactory(() => LoginCubit());
+  locator.registerFactory(() => AuthenticationCubit());
 }
 
-Future<void> initUseCases() async {}
+Future<void> initUseCases() async {
+  locator.registerLazySingleton(() => MobileUseCase());
+  locator.registerLazySingleton(() => OTPUseCase());
+}
 
-Future<void> initRepositories() async {}
+Future<void> initRepositories() async {
+  locator.registerLazySingleton<AuthenticationRepository>(() => AuthenticationRepositoryImpl());
+}
 
-Future<void> initDataSources() async {}
-
+Future<void> initDataSources() async {
+  locator.registerLazySingleton<AuthenticationDataSource>(() => AuthenticationDataSourceImpl());
+}

@@ -9,7 +9,6 @@ class SplashWidget extends StatefulWidget {
 }
 
 class _SplashWidgetState extends State<SplashWidget> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

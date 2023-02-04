@@ -1,8 +1,16 @@
+import 'package:gs_diamond/features/authentication/presentation/bloc_cubit/authentication_cubit.dart';
+import 'package:gs_diamond/features/authentication/presentation/widget/otp_input_widget.dart';
 import 'package:gs_diamond/core/constants/app_constant.dart';
 import 'package:gs_diamond/core/theme/app_text_styles.dart';
+import 'package:gs_diamond/core/helper/dialog.helper.dart';
 import 'package:gs_diamond/core/theme/app_colors.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+
 import 'dart:async';
+
+import 'package:velocity_x/velocity_x.dart';
 
 class OtpWidget extends StatefulWidget {
   const OtpWidget({Key? key}) : super(key: key);
@@ -12,20 +20,25 @@ class OtpWidget extends StatefulWidget {
 }
 
 class _OtpWidgetState extends State<OtpWidget> {
+  final TextEditingController _fieldOne = TextEditingController();
+  final TextEditingController _fieldTwo = TextEditingController();
+  final TextEditingController _fieldThree = TextEditingController();
+  final TextEditingController _fieldFour = TextEditingController();
+
   int secondsRemaining = 30;
   bool enableResend = false;
   Timer? timer;
-
-  bool get isPopulated => secondsRemaining != null;
 
   @override
   initState() {
     super.initState();
     timer = Timer.periodic(const Duration(seconds: 1), (_) {
       if (secondsRemaining != 0) {
-        setState(() {
-          secondsRemaining--;
-        });
+        if (this.mounted) {
+          setState(() {
+            secondsRemaining--;
+          });
+        }
       } else {
         setState(() {
           enableResend = true;
@@ -68,7 +81,7 @@ class _OtpWidgetState extends State<OtpWidget> {
                 height: 8,
               ),
               const Text(
-                "Enter your OTP code number",
+                "Please enter the 4 digit code sent to your mobile number",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -85,10 +98,10 @@ class _OtpWidgetState extends State<OtpWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _textFieldOTP(first: true, last: false),
-                        _textFieldOTP(first: false, last: false),
-                        _textFieldOTP(first: false, last: false),
-                        _textFieldOTP(first: false, last: true),
+                        OtpInput(_fieldOne, true, false),
+                        OtpInput(_fieldTwo, false, false),
+                        OtpInput(_fieldThree, false, false),
+                        OtpInput(_fieldFour, false, true),
                       ],
                     ),
                   ),
@@ -104,7 +117,22 @@ class _OtpWidgetState extends State<OtpWidget> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: buttonBgColor,
                             minimumSize: const Size(double.maxFinite, 48)),
-                        onPressed: isPopulated ? () {} : null,
+                        onPressed: () {
+                          if (_fieldOne.text.isNotEmptyAndNotNull &&
+                              _fieldTwo.text.isNotEmptyAndNotNull &&
+                              _fieldThree.text.isNotEmptyAndNotNull &&
+                              _fieldFour.text.isNotEmptyAndNotNull) {
+                            context.read<AuthenticationCubit>().otpChanged(
+                                _fieldOne.text +
+                                    _fieldTwo.text +
+                                    _fieldThree.text +
+                                    _fieldFour.text);
+                            context.read<AuthenticationCubit>().checkOTP();
+                          } else {
+                            DialogHelper.showToast(context, "Please Enter OTP",
+                                ToastGravity.BOTTOM);
+                          }
+                        },
                         child: const Text(
                           AppConstants.verify,
                           style: textButtonTextStyle,
@@ -118,7 +146,7 @@ class _OtpWidgetState extends State<OtpWidget> {
                 height: 18,
               ),
               const Text(
-                "Didn't you receive any code?",
+                "Didn't you receive code?",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
@@ -170,6 +198,7 @@ class _OtpWidgetState extends State<OtpWidget> {
           autofocus: true,
           onChanged: (value) {
             print("value: $value");
+            context.read<AuthenticationCubit>().otpChanged(value);
             if (value.length == 1 && last == false) {
               FocusScope.of(context).nextFocus();
             }

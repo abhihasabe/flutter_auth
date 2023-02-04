@@ -1,14 +1,12 @@
 import 'package:gs_diamond/core/validations/number_validation_dart.dart';
 import 'package:gs_diamond/core/validations/password_validation.dart';
-import 'package:gs_diamond/core/validations/field_validation.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 
-class LoginState extends Equatable {
-  const LoginState({
+class AuthenticationState extends Equatable {
+  const AuthenticationState({
     this.mNumber = const Number.pure(),
-    this.password = const Password.pure(),
-    this.role = const Field.pure(),
+    this.otp = const Password.pure(),
     this.status = FormzStatus.pure,
     this.exceptionError = "",
     this.outPut = "",
@@ -16,8 +14,7 @@ class LoginState extends Equatable {
   });
 
   final Number mNumber;
-  final Password password;
-  final Field role;
+  final Password otp;
   final FormzStatus status;
   final String exceptionError;
   final Object outPut;
@@ -25,21 +22,19 @@ class LoginState extends Equatable {
 
   @override
   List<Object> get props =>
-      [mNumber, password, role, status, exceptionError, outPut, outPut1];
+      [mNumber, otp, status, exceptionError, outPut, outPut1];
 
-  LoginState copyWith({
+  AuthenticationState copyWith({
     Number? mNumber,
-    Password? password,
-    Field? role,
+    Password? otp,
     FormzStatus? status,
     String? exceptionError,
     Object? outPut,
     Object? outPut1,
   }) {
-    return LoginState(
+    return AuthenticationState(
         mNumber: mNumber ?? this.mNumber,
-        password: password ?? this.password,
-        role: role ?? this.role,
+        otp: otp ?? this.otp,
         status: status ?? this.status,
         exceptionError: exceptionError ?? this.exceptionError,
         outPut: outPut ?? this.outPut,
