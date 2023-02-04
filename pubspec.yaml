@@ -1,0 +1,52 @@
+name: gs_diamond
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.6 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  internet_connection_checker:
+  flutter_launcher_icons:
+  shared_preferences:
+  flutter_bloc:
+  fluttertoast:
+  either_dart:
+  velocity_x:
+  equatable:
+  vrouter:
+  get_it:
+  formz:
+  http:
+  intl:
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/lang/
+    - assets/icons/
+
+  fonts:
+    - family: Muli
+      fonts:
+        - asset: assets/fonts/muli/Muli.ttf
+        - asset: assets/fonts/muli/Muli-Light.ttf
+        - asset: assets/fonts/muli/Muli-Italic.ttf
+        - asset: assets/fonts/muli/Muli-Bold.ttf
