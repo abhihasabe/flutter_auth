@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => di.locator<AuthenticationCubit>())
         ],
         child: MaterialApp.router(
-          title: 'GS Diamond',
           theme: AppThemes.lightTheme,
+          darkTheme: AppThemes.darkTheme,
           debugShowCheckedModeBanner: false,
           routeInformationParser: VxInformationParser(),
           routerDelegate: Routes.routerDelegate,

@@ -12,6 +12,10 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Home", style: appBarTextStyle)), body: const Text("data"));
+        appBar: AppBar(
+          title: const Text("Home", style: appBarTextStyle),
+          brightness: Brightness.light,
+        ),
+        body: const Text("data"));
   }
 }

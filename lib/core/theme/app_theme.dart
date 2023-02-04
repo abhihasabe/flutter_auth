@@ -13,8 +13,6 @@ class AppThemes {
   }
 
   static ThemeData darkTheme = ThemeData(
-      brightness: Brightness.dark,
-      primaryColor: primaryDarkColor,
       primarySwatch: const MaterialColor(0xb2610c0c, <int, Color>{
         50: Color(0x1a610c0c),
         100: Color(0x33610c0c),
@@ -27,6 +25,8 @@ class AppThemes {
         800: Color(0xe6610c0c),
         900: Color(0xff610c0c),
       }),
+      brightness: Brightness.dark,
+      primaryColor: primaryDarkColor,
       backgroundColor: backgroundDarkColor,
       scaffoldBackgroundColor: scaffoldBackgroundDarkColor,
       canvasColor: canvasDarkColor,
