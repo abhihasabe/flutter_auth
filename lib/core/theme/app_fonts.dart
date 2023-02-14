@@ -1,4 +1,4 @@
 class FontNames {
   FontNames._();
-  static const String robotoMono = 'Muli';
+  static const String robotoMono = 'OpenSans';
 }

@@ -1,3 +1,4 @@
+import 'package:gs_diamond/core/constants/app_assets_constant.dart';
 import 'package:gs_diamond/features/authentication/presentation/bloc_cubit/authentication_cubit.dart';
 import 'package:gs_diamond/features/authentication/presentation/widget/otp_input_widget.dart';
 import 'package:gs_diamond/core/constants/app_constant.dart';
@@ -6,11 +7,9 @@ import 'package:gs_diamond/core/helper/dialog.helper.dart';
 import 'package:gs_diamond/core/theme/app_colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/material.dart';
-
-import 'dart:async';
-
 import 'package:velocity_x/velocity_x.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
 
 class OtpWidget extends StatefulWidget {
   const OtpWidget({Key? key}) : super(key: key);
@@ -57,15 +56,13 @@ class _OtpWidgetState extends State<OtpWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: MediaQuery.of(context).size.width / 3,
+                width: MediaQuery.of(context).size.width / 2,
                 height: MediaQuery.of(context).size.height / 6,
-                decoration: BoxDecoration(
+                /*decoration: BoxDecoration(
                   color: Colors.deepPurple.shade50,
                   shape: BoxShape.circle,
-                ),
-                child: Image.asset(
-                  'assets/icons/logo.png',
-                ),
+                ),*/
+                child: Image.asset(AppAssets.splashLogo),
               ),
               const SizedBox(
                 height: 24,
